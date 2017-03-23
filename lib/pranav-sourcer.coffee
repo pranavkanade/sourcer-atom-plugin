@@ -30,15 +30,16 @@ module.exports = PranavSourcer =
   fetch: ->
     if (editor = atom.workspace.getActiveTextEditor())
       selection = editor.getSelectedText()
-      @download selection
+      @download(selection).then((html) ->
+        editor.insertText(html)).catch((error) ->
+          atom.notifications.addWarning(error.reason))
 
 
   download: (url) ->
-    request url, (error, response, body) ->
-      console.log body if !error and (response.statusCode == 200)
-    # alternative arrow function request
-    # `request(url, (error, response, body) => {
-    #   if (!error && response.statusCode == 200) {
-    #     console.log(body)
-    #   }
-    # })`
+    # added a promise object so that we can fetch the responce asynchronously
+    new Promise (resolve, reject) ->
+      request url, (error, response, body) ->
+        if !error and response.statusCode == 200
+          resolve body
+        else
+          reject {reason: 'Unable to download page'}
