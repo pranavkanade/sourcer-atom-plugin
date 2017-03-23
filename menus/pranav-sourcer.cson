@@ -2,8 +2,8 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle pranav-sourcer'
-      'command': 'pranav-sourcer:toggle'
+      'label': 'Fetch code'
+      'command': 'pranav-sourcer:fetch'
     }
   ]
 'menu': [
@@ -13,8 +13,8 @@
       'label': 'pranav-sourcer'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'pranav-sourcer:toggle'
+          'label': 'Fetch code'
+          'command': 'pranav-sourcer:fetch'
         }
       ]
     ]

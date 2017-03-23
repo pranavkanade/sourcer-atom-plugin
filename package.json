@@ -6,7 +6,7 @@
   "keywords": [
   ],
   "activationCommands": {
-    "atom-workspace": "pranav-sourcer:toggle"
+    "atom-workspace": "pranav-sourcer:fetch"
   },
   "repository": "https://github.com/atom/pranav-sourcer",
   "license": "MIT",
