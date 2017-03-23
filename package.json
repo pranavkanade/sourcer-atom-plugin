@@ -1,13 +1,13 @@
 {
   "name": "pranav-sourcer",
   "main": "./lib/pranav-sourcer",
-  "version": "0.0.0",
-  "description": "A short description of your package",
+  "version": "0.1.0",
+  "description": "coffee script implementation of sourcer",
   "keywords": [],
   "activationCommands": {
     "atom-workspace": "pranav-sourcer:fetch"
   },
-  "repository": "https://github.com/atom/pranav-sourcer",
+  "repository": "https://github.com/pskanade/sourcer-atom-plugin.git",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
