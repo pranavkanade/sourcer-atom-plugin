@@ -1,5 +1,8 @@
-PranavSourcerView = require './pranav-sourcer-view'
+'use babel'
+#PranavSourcerView = require './pranav-sourcer-view'
 {CompositeDisposable} = require 'atom'
+request = require 'request'
+
 
 module.exports = PranavSourcer =
   # pranavSourcerView: null
@@ -25,14 +28,17 @@ module.exports = PranavSourcer =
   #   pranavSourcerViewState: @pranavSourcerView.serialize()
 
   fetch: ->
-    # new code to reverse the selected string in the text editor
     if (editor = atom.workspace.getActiveTextEditor())
       selection = editor.getSelectedText()
-      reversed = selection.split('').reverse().join('')
-      editor.insertText(reversed)
-    # console.log 'PranavSourcer was toggled!'
-    #
-    # if @modalPanel.isVisible()
-    #   @modalPanel.hide()
-    # else
-    #   @modalPanel.show()
+      @download selection
+
+
+  download: (url) ->
+    request url, (error, response, body) ->
+      console.log body if !error and (response.statusCode == 200)
+    # alternative arrow function request
+    # `request(url, (error, response, body) => {
+    #   if (!error && response.statusCode == 200) {
+    #     console.log(body)
+    #   }
+    # })`
