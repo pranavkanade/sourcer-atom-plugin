@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Toggle pranav-sourcer'
+      'command': 'pranav-sourcer:toggle'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'pranav-sourcer'
+      'submenu': [
+        {
+          'label': 'Toggle'
+          'command': 'pranav-sourcer:toggle'
+        }
+      ]
+    ]
+  }
+]
