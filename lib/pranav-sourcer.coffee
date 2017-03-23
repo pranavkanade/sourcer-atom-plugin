@@ -25,9 +25,14 @@ module.exports = PranavSourcer =
     pranavSourcerViewState: @pranavSourcerView.serialize()
 
   toggle: ->
-    console.log 'PranavSourcer was toggled!'
-
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
-    else
-      @modalPanel.show()
+    # new code to reverse the selected string in the text editor
+    if (editor = atom.workspace.getActiveTextEditor())
+      selection = editor.getSelectedText()
+      reversed = selection.split('').reverse().join('')
+      editor.insertText(reversed)
+    # console.log 'PranavSourcer was toggled!'
+    #
+    # if @modalPanel.isVisible()
+    #   @modalPanel.hide()
+    # else
+    #   @modalPanel.show()
