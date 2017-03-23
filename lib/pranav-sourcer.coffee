@@ -3,6 +3,8 @@
 {CompositeDisposable} = require 'atom'
 request = require 'request'
 cheerio = require 'cheerio'
+google = require 'google'
+google.resultsPerPage = 1
 
 module.exports = PranavSourcer =
   # pranavSourcerView: null
@@ -31,17 +33,33 @@ module.exports = PranavSourcer =
     # self has to be defined as the global context cannot be passed to the callback functions.
     self = this
     if (editor = atom.workspace.getActiveTextEditor())
-      selection = editor.getSelectedText()
-      @download(selection).then((html) ->
-        answer = self.scrape(html)
-        if answer == ''
-          atom.notifications.addWarning('No answer Found :(')
-        else
-          editor.insertText(answer)
-        ).catch((error) ->
-          console.log error
-          atom.notifications.addWarning(error.reason))
+      query = editor.getSelectedText()
+      language = editor.getGrammar().name
+      self.search(query, language).then((url) ->
+        atom.notifications.addSuccess('Found Google Results ..!!')
+        editor.insertText(url)
+        return self.download(url)).then((html) ->
+          answer = self.scrape(html)
+          if answer == ''
+            atom.notifications.addWarning('No answer Found :(')
+          else
+            atom.notifications.addSuccess('Found snippet!')
+            editor.insertText(answer)
+          ).catch((error) ->
+            console.log error
+            atom.notifications.addWarning(error.reason))
 
+  search: (query, language) ->
+    new Promise((resolve, reject) ->
+      searchString = "#{query} in #{language} site:stackoverflow.com"
+      console.log searchString
+      google(searchString, (err, res) ->
+        if err
+          reject({reason : 'A search error has occured :('})
+        else if res.links.lenght == 0
+          reject({reason : 'No results found :('})
+        else
+          resolve(res.links[0].href)))
 
   scrape:(html) ->
     $ = cheerio.load(html)
