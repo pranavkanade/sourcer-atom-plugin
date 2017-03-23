@@ -1,7 +1,7 @@
 {
   "name": "pranav-sourcer",
   "main": "./lib/pranav-sourcer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "coffee script implementation of sourcer",
   "keywords": [],
   "activationCommands": {
