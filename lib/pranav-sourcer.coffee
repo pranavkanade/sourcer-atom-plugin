@@ -2,7 +2,7 @@
 #PranavSourcerView = require './pranav-sourcer-view'
 {CompositeDisposable} = require 'atom'
 request = require 'request'
-
+cheerio = require 'cheerio'
 
 module.exports = PranavSourcer =
   # pranavSourcerView: null
@@ -28,12 +28,24 @@ module.exports = PranavSourcer =
   #   pranavSourcerViewState: @pranavSourcerView.serialize()
 
   fetch: ->
+    # self has to be defined as the global context cannot be passed to the callback functions.
+    self = this
     if (editor = atom.workspace.getActiveTextEditor())
       selection = editor.getSelectedText()
       @download(selection).then((html) ->
-        editor.insertText(html)).catch((error) ->
+        answer = self.scrape(html)
+        if answer == ''
+          atom.notifications.addWarning('No answer Found :(')
+        else
+          editor.insertText(answer)
+        ).catch((error) ->
+          console.log error
           atom.notifications.addWarning(error.reason))
 
+
+  scrape:(html) ->
+    $ = cheerio.load(html)
+    $('div.accepted-answer pre code').text()
 
   download: (url) ->
     # added a promise object so that we can fetch the responce asynchronously
