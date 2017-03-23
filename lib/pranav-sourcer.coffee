@@ -17,9 +17,9 @@ module.exports = PranavSourcer =
 
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-    require("request").install("pranav-sourcer")
-    require("cheerio").install("pranav-sourcer")
-    require("google").install("pranav-sourcer")
+    # require("request").install("pranav-sourcer")
+    # require("cheerio").install("pranav-sourcer")
+    # require("google").install("pranav-sourcer")
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'pranav-sourcer:fetch': => @fetch()
 
