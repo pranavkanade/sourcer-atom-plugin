@@ -1,5 +1,3 @@
-'use babel'
-#PranavSourcerView = require './pranav-sourcer-view'
 {CompositeDisposable} = require 'atom'
 request = require 'request'
 cheerio = require 'cheerio'
@@ -7,19 +5,11 @@ google = require 'google'
 google.resultsPerPage = 1
 
 module.exports = PranavSourcer =
-  # pranavSourcerView: null
-  # modalPanel: null
   subscriptions: null
 
   activate: (state) ->
-  #   @pranavSourcerView = new PranavSourcerView(state.pranavSourcerViewState)
-  #   @modalPanel = atom.workspace.addModalPanel(item: @pranavSourcerView.getElement(), visible: false)
-
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-    # require("request").install("pranav-sourcer")
-    # require("cheerio").install("pranav-sourcer")
-    # require("google").install("pranav-sourcer")
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'pranav-sourcer:fetch': => @fetch()
 
@@ -27,9 +17,6 @@ module.exports = PranavSourcer =
     # @modalPanel.destroy()
     @subscriptions.dispose()
     # @pranavSourcerView.destroy()
-
-  # serialize: ->
-  #   pranavSourcerViewState: @pranavSourcerView.serialize()
 
   fetch: ->
     # self has to be defined as the global context cannot be passed to the callback functions.
@@ -39,7 +26,6 @@ module.exports = PranavSourcer =
       language = editor.getGrammar().name
       self.search(query, language).then((url) ->
         atom.notifications.addSuccess('Found Google Results ..!!')
-        editor.insertText(url)
         return self.download(url)).then((html) ->
           answer = self.scrape(html)
           if answer == ''
